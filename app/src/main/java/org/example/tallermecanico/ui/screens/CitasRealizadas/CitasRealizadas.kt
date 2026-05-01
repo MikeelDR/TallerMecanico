@@ -29,7 +29,8 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ListenerRegistration
 import org.example.tallermecanico.R
 import org.example.tallermecanico.data.models.Cita
-
+import androidx.compose.material.icons.filled.QrCode
+import androidx.compose.material3.Divider
 @Composable
 fun CitasRealizadasScreen(navController: NavHostController, userEmail: String) {
     val db = FirebaseFirestore.getInstance()
@@ -211,6 +212,11 @@ fun CitaCard(
     val marca = cita["marca"] as? String ?: "No especificada"
     val placaVehiculo = cita["placa"] as? String ?: "No especificada"
 
+    // Leer el ID del vehículo asignado por el trabajador
+    val vehiculoId = cita["vehiculoId"] as? String
+        ?: cita["idVehiculo"] as? String
+        ?: cita["idSeguimiento"] as? String
+
     // Intentamos obtener la fecha_hora, si no existe intentamos con otros campos posibles
     val fechaHora = cita["fecha_hora"] as? String
         ?: cita["fechaSolicitada"] as? String
@@ -309,6 +315,59 @@ fun CitaCard(
                     value = servicio.toString(),
                     primaryColor = primaryColor,
                     textColor = textSecondaryColor
+                )
+            }
+
+            // Mostrar ID del vehículo solo si ya fue asignado por el trabajador
+            if (!vehiculoId.isNullOrBlank()) {
+                Spacer(modifier = Modifier.height(8.dp))
+
+                // Separador visual
+                Divider(
+                    modifier = Modifier.padding(vertical = 4.dp),
+                    color = primaryColor.copy(alpha = 0.15f)
+                )
+
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .background(
+                            color = primaryColor.copy(alpha = 0.05f),
+                            shape = RoundedCornerShape(8.dp)
+                        )
+                        .padding(8.dp)
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.QrCode,
+                        contentDescription = null,
+                        tint = primaryColor,
+                        modifier = Modifier.size(20.dp)
+                    )
+                    Spacer(modifier = Modifier.width(8.dp))
+                    Column {
+                        Text(
+                            text = "ID de seguimiento",
+                            style = MaterialTheme.typography.labelSmall,
+                            color = primaryColor.copy(alpha = 0.7f)
+                        )
+                        Text(
+                            text = vehiculoId,
+                            style = MaterialTheme.typography.bodyMedium.copy(
+                                fontWeight = FontWeight.Bold
+                            ),
+                            color = primaryColor
+                        )
+                    }
+                }
+            } else {
+                // Aún no asignado
+                Spacer(modifier = Modifier.height(8.dp))
+                Text(
+                    text = "ID de seguimiento: pendiente de asignación",
+                    style = MaterialTheme.typography.bodySmall,
+                    color = textSecondaryColor.copy(alpha = 0.6f),
+                    fontStyle = androidx.compose.ui.text.font.FontStyle.Italic
                 )
             }
 

@@ -250,10 +250,11 @@ fun DatosAutoClienteScreen(
             Button(
                 onClick = {
                     val uid = auth.currentUser?.uid
+                    val emailAutenticado = auth.currentUser?.email ?: email.text
                     if (uid != null && selectedDate.isNotEmpty() && selectedTime.isNotEmpty()) {
                         val cita = hashMapOf(
                             "cliente_uid" to uid,
-                            "email" to email.text,
+                            "email" to emailAutenticado,
                             "marca" to brand.text,
                             "año" to year.text,
                             "placa" to plateNumber.text,
