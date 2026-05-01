@@ -21,7 +21,17 @@ import org.example.tallermecanico.ui.data.repository.VehiculosRepository
 import org.example.tallermecanico.ui.screens.*
 import org.example.tallermecanico.ui.screens.PerfilCliente.PerfilClienteScreen
 import org.example.tallermecanico.viewmodel.*
-
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material3.*
+import androidx.compose.foundation.layout.*
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.ExperimentalMaterial3Api
 /**
  * Definición de rutas para la navegación en la aplicación
  * Organizadas por secciones: Autenticación, Cliente, Administrador/Trabajador
@@ -393,23 +403,231 @@ fun TallerMecanicoNavGraph(
         }
     }
 }
+@OptIn(ExperimentalMaterial3Api::class)
+
+@Composable
+fun ClientVehicleStatusScreen(
+    onBackPressed: () -> Unit,
+    viewModel: ClientVehicleStatusViewModel
+) {
+    val primaryColor = Color(0xFF1F41BB)
+
+    Scaffold(
+        topBar = {
+            TopAppBar(
+                title = { Text("Estado del Vehículo") },
+                navigationIcon = {
+                    IconButton(onClick = { onBackPressed() }) {
+                        Icon(
+                            imageVector = Icons.Default.ArrowBack,
+                            contentDescription = "Regresar"
+                        )
+                    }
+                },
+                colors = TopAppBarDefaults.topAppBarColors(
+                    containerColor = primaryColor,
+                    titleContentColor = Color.White,
+                    navigationIconContentColor = Color.White
+                )
+            )
+        }
+    ) { paddingValues ->
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(paddingValues),
+            contentAlignment = Alignment.Center
+        ) {
+            Text(
+                text = "Consultando estado del vehículo...",
+                color = Color.Gray
+            )
+        }
+    }
+}
 
 private fun AnimatedContentScope.obtenerRepositorioVehiculos() {
     TODO("Not yet implemented")
 }
-
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DetallesServicioScreen(servicioId: String, navController: NavHostController) {
-    TODO("Not yet implemented")
+@Composable
+fun DetallesServicioScreen(servicioId: String, navController: NavHostController) {
+    val servicio = serviciosDisponibles.find { it.id == servicioId }
+    val primaryColor = Color(0xFF1F41BB)
+
+    Scaffold(
+        topBar = {
+            TopAppBar(
+                title = { Text("Detalle del Servicio") },
+                navigationIcon = {
+                    IconButton(onClick = { navController.popBackStack() }) {
+                        Icon(
+                            imageVector = Icons.Default.ArrowBack,
+                            contentDescription = "Regresar"
+                        )
+                    }
+                },
+                colors = TopAppBarDefaults.topAppBarColors(
+                    containerColor = primaryColor,
+                    titleContentColor = Color.White,
+                    navigationIconContentColor = Color.White
+                )
+            )
+        }
+    ) { paddingValues ->
+        if (servicio == null) {
+            Box(
+                modifier = Modifier.fillMaxSize().padding(paddingValues),
+                contentAlignment = Alignment.Center
+            ) {
+                Text("Servicio no encontrado", color = Color.Gray)
+            }
+        } else {
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(paddingValues)
+                    .padding(16.dp),
+                verticalArrangement = Arrangement.spacedBy(16.dp)
+            ) {
+                // Encabezado con color de categoría
+                Card(
+                    modifier = Modifier.fillMaxWidth(),
+                    colors = CardDefaults.cardColors(
+                        containerColor = obtenerColorCategoria(servicio.categoria)
+                    ),
+                    shape = RoundedCornerShape(12.dp)
+                ) {
+                    Column(modifier = Modifier.padding(20.dp)) {
+                        Text(
+                            text = servicio.nombre,
+                            fontSize = 22.sp,
+                            fontWeight = FontWeight.Bold,
+                            color = Color.White
+                        )
+                        Text(
+                            text = servicio.nombreCategoria,
+                            fontSize = 14.sp,
+                            color = Color.White.copy(alpha = 0.8f)
+                        )
+                    }
+                }
+
+                // Precio
+                Card(
+                    modifier = Modifier.fillMaxWidth(),
+                    shape = RoundedCornerShape(12.dp)
+                ) {
+                    Row(
+                        modifier = Modifier.padding(16.dp).fillMaxWidth(),
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Text("Precio estimado", fontWeight = FontWeight.Medium, color = Color.Gray)
+                        Text(
+                            text = servicio.precio,
+                            fontWeight = FontWeight.Bold,
+                            color = primaryColor,
+                            fontSize = 16.sp
+                        )
+                    }
+                }
+
+                // Duración
+                Card(
+                    modifier = Modifier.fillMaxWidth(),
+                    shape = RoundedCornerShape(12.dp)
+                ) {
+                    Row(
+                        modifier = Modifier.padding(16.dp).fillMaxWidth(),
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Text("Duración estimada", fontWeight = FontWeight.Medium, color = Color.Gray)
+                        Text(
+                            text = servicio.duracionEstimada,
+                            fontWeight = FontWeight.Bold,
+                            color = primaryColor
+                        )
+                    }
+                }
+
+                // Descripción
+                Card(
+                    modifier = Modifier.fillMaxWidth(),
+                    shape = RoundedCornerShape(12.dp)
+                ) {
+                    Column(modifier = Modifier.padding(16.dp)) {
+                        Text(
+                            text = "Descripción",
+                            fontWeight = FontWeight.Bold,
+                            fontSize = 16.sp,
+                            modifier = Modifier.padding(bottom = 8.dp)
+                        )
+                        Text(
+                            text = servicio.descripcion,
+                            color = Color.DarkGray,
+                            lineHeight = 22.sp
+                        )
+                    }
+                }
+
+                // Botón agendar
+                Button(
+                    onClick = { navController.navigate(AppScreens.DatosAutoCliente.route) },
+                    modifier = Modifier.fillMaxWidth().height(52.dp),
+                    shape = RoundedCornerShape(12.dp),
+                    colors = ButtonDefaults.buttonColors(containerColor = primaryColor)
+                ) {
+                    Text("Agendar este servicio", fontSize = 16.sp, fontWeight = FontWeight.Bold)
+                }
+            }
+        }
+    }
 }
 
-@Composable
-fun ClientVehicleStatusScreen(
-    onBackPressed: () -> Boolean,
-    viewModel: ClientVehicleStatusViewModel
-) {
-    TODO("Not yet implemented")
-}
+    @Composable
+    fun ClientVehicleStatusScreen(
+        onBackPressed: () -> Unit,
+        viewModel: ClientVehicleStatusViewModel
+    ) {
+        val primaryColor = Color(0xFF1F41BB)
+
+        Scaffold(
+            topBar = {
+                TopAppBar(
+                    title = { Text("Estado del Vehículo") },
+                    navigationIcon = {
+                        IconButton(onClick = { onBackPressed() }) {
+                            Icon(
+                                imageVector = Icons.Default.ArrowBack,
+                                contentDescription = "Regresar"
+                            )
+                        }
+                    },
+                    colors = TopAppBarDefaults.topAppBarColors(
+                        containerColor = primaryColor,
+                        titleContentColor = Color.White,
+                        navigationIconContentColor = Color.White
+                    )
+                )
+            }
+        ) { paddingValues ->
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(paddingValues),
+                contentAlignment = Alignment.Center
+            ) {
+                Text(
+                    text = "Consultando estado del vehículo...",
+                    color = Color.Gray
+                )
+            }
+        }
+    }
 
 /**
  * Funciones de extensión para navegación
@@ -556,4 +774,4 @@ fun NavHostController.navigateToUpdateStatus(serviceId: String) {
         launchSingleTop = true
         restoreState = true
     }
-}
+}}

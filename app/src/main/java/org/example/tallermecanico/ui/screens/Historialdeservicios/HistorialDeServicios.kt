@@ -30,6 +30,7 @@ import androidx.navigation.NavHostController
 import org.example.tallermecanico.R
 import org.example.tallermecanico.navigation.AppScreens
 
+
 // Clase para representar un servicio del taller
 data class ServicioTaller1(
     val id: String,
