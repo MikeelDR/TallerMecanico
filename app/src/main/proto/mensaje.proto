@@ -1,0 +1,7 @@
+syntax = "proto3";
+
+message Mensaje {
+    string usuario_uid = 1;
+    string mensaje = 2;
+    string fecha_hora = 3;
+}

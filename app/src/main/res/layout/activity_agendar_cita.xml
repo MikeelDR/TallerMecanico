@@ -1,0 +1,67 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <!-- TextView para seleccionar el servicio -->
+    <TextView
+        android:id="@+id/tvServicio"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Selecciona un servicio"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+    <!-- Spinner para elegir el servicio -->
+    <Spinner
+        android:id="@+id/spinnerServicios"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <!-- Botón para seleccionar la fecha -->
+    <Button
+        android:id="@+id/btnSeleccionarFecha"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Seleccionar Fecha" />
+
+    <!-- TextView para mostrar la fecha seleccionada -->
+    <TextView
+        android:id="@+id/tvFechaSeleccionada"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Fecha seleccionada: -"
+        android:textSize="16sp" />
+
+    <!-- Botón para seleccionar la hora -->
+    <Button
+        android:id="@+id/btnSeleccionarHora"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Seleccionar Hora" />
+
+    <!-- TextView para mostrar la hora seleccionada -->
+    <TextView
+        android:id="@+id/tvHoraSeleccionada"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Hora seleccionada: -"
+        android:textSize="16sp" />
+
+    <!-- EditText para seleccionar fecha y hora (opcional, si se requiere formato manual) -->
+    <EditText
+        android:id="@+id/etFechaHora"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Fecha y hora (yyyy-MM-dd HH:mm)"
+        android:inputType="datetime" />
+
+    <!-- Botón para confirmar la cita -->
+    <Button
+        android:id="@+id/btnConfirmarCita"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Confirmar Cita" />
+
+</LinearLayout>

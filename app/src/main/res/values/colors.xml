@@ -1,0 +1,27 @@
+
+<resources>
+    <!-- Colores base de la app -->
+    <color name="azul_primario">#1565C0</color>
+    <color name="azul_oscuro">#0D47A1</color>
+    <color name="celeste">#00BFFF</color>
+    <color name="celeste_claro">#90CAF9</color>
+
+    <!-- Escala de grises -->
+    <color name="gris_oscuro">#404040</color>
+    <color name="gris_medio">#757575</color>
+    <color name="gris_texto">#616161</color>
+    <color name="gris_claro">#F5F5F5</color>
+    <color name="gris_clarísimo">#FAFAFA</color>
+
+    <!-- Colores base del sistema -->
+    <color name="black">#000000</color>
+    <color name="white">#FFFFFF</color>
+
+    <!-- Colores de estado -->
+    <color name="green">#4CAF50</color>  <!-- Verde para estado "Completada" -->
+    <color name="orange">#FF9800</color> <!-- Naranja para estado "Pendiente" -->
+    <color name="yellow">#FFC107</color> <!-- Amarillo para estado "En proceso" -->
+    <color name="red">#F44336</color>    <!-- Rojo para otros estados/errores -->
+    <color name="ic_launcher_background">#1A5FB4</color>
+
+</resources>
