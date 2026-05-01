@@ -39,6 +39,7 @@ import com.google.firebase.firestore.Query
 import kotlinx.coroutines.launch
 import org.example.tallermecanico.viewmodel.TrabajadorViewModel
 import java.util.UUID
+import org.example.tallermecanico.navigation.AppScreens
 
 // Modelo de datos para Cita con información ampliada para el trabajador
 data class CitaTrabajador(
@@ -914,7 +915,9 @@ fun GestionCitasTrabajadorScreen(
                                                 .padding(12.dp)
                                                 .clickable {
                                                     // Navegar a la pantalla de consulta de vehículo con este ID
-                                                    navController.navigate("consultaVehiculo/${cita.vehiculo_id}")
+                                                    navController.navigate(
+                                                        AppScreens.ConsultaVehiculoScreen.createRoute(cita.vehiculo_id)
+                                                    )
                                                 },
                                             verticalAlignment = Alignment.CenterVertically
                                         ) {
