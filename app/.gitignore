@@ -1,1 +1,8 @@
-/build
+# Firebase
+google-services.json
+
+# Build
+build/
+app/build/
+*.class
+
