@@ -637,3 +637,101 @@ fun obtenerColorCategoria(categoria: String): Color {
         Color(0xFF9E9E9E) // Gris por defecto si la categoria no existe
     }
 }
+    @OptIn(ExperimentalMaterial3Api::class)
+    @Composable
+    fun DetallesServicioScreen(servicioId: String, navController: NavHostController) {
+        val servicio = serviciosDisponibles.find { it.id == servicioId }
+        val primaryColor = Color(0xFF1F41BB)
+
+        Scaffold(
+            topBar = {
+                TopAppBar(
+                    title = { Text("Detalle del Servicio") },
+                    navigationIcon = {
+                        IconButton(onClick = { navController.popBackStack() }) {
+                            Icon(Icons.Default.ArrowBack, contentDescription = "Regresar")
+                        }
+                    },
+                    colors = TopAppBarDefaults.topAppBarColors(
+                        containerColor = primaryColor,
+                        titleContentColor = Color.White,
+                        navigationIconContentColor = Color.White
+                    )
+                )
+            }
+        ) { paddingValues ->
+            if (servicio == null) {
+                Box(
+                    modifier = Modifier.fillMaxSize().padding(paddingValues),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Text("Servicio no encontrado", color = Color.Gray)
+                }
+            } else {
+                Column(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(paddingValues)
+                        .padding(16.dp),
+                    verticalArrangement = Arrangement.spacedBy(16.dp)
+                ) {
+                    Card(
+                        modifier = Modifier.fillMaxWidth(),
+                        colors = CardDefaults.cardColors(
+                            containerColor = obtenerColorCategoria(servicio.categoria)
+                        ),
+                        shape = RoundedCornerShape(12.dp)
+                    ) {
+                        Column(modifier = Modifier.padding(20.dp)) {
+                            Text(
+                                text = servicio.nombre,
+                                fontSize = 22.sp,
+                                fontWeight = FontWeight.Bold,
+                                color = Color.White
+                            )
+                            Text(
+                                text = servicio.nombreCategoria,
+                                fontSize = 14.sp,
+                                color = Color.White.copy(alpha = 0.8f)
+                            )
+                        }
+                    }
+                    Card(modifier = Modifier.fillMaxWidth(), shape = RoundedCornerShape(12.dp)) {
+                        Row(
+                            modifier = Modifier.padding(16.dp).fillMaxWidth(),
+                            horizontalArrangement = Arrangement.SpaceBetween,
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Text("Precio estimado", fontWeight = FontWeight.Medium, color = Color.Gray)
+                            Text(text = servicio.precio, fontWeight = FontWeight.Bold, color = primaryColor, fontSize = 16.sp)
+                        }
+                    }
+                    Card(modifier = Modifier.fillMaxWidth(), shape = RoundedCornerShape(12.dp)) {
+                        Row(
+                            modifier = Modifier.padding(16.dp).fillMaxWidth(),
+                            horizontalArrangement = Arrangement.SpaceBetween,
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Text("Duración estimada", fontWeight = FontWeight.Medium, color = Color.Gray)
+                            Text(text = servicio.duracionEstimada, fontWeight = FontWeight.Bold, color = primaryColor)
+                        }
+                    }
+                    Card(modifier = Modifier.fillMaxWidth(), shape = RoundedCornerShape(12.dp)) {
+                        Column(modifier = Modifier.padding(16.dp)) {
+                            Text("Descripción", fontWeight = FontWeight.Bold, fontSize = 16.sp, modifier = Modifier.padding(bottom = 8.dp))
+                            Text(text = servicio.descripcion, color = Color.DarkGray, lineHeight = 22.sp)
+                        }
+                    }
+                    Button(
+                        onClick = { navController.navigate(AppScreens.DatosAutoCliente.route) },
+                        modifier = Modifier.fillMaxWidth().height(52.dp),
+                        shape = RoundedCornerShape(12.dp),
+                        colors = ButtonDefaults.buttonColors(containerColor = primaryColor)
+                    ) {
+                        Text("Agendar este servicio", fontSize = 16.sp, fontWeight = FontWeight.Bold)
+                    }
+                }
+            }
+        }
+    }
+
